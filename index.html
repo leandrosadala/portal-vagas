@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plataforma de Inserção Profissional - Rio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 p-6 min-h-screen flex items-center justify-center">
+
+    <div class="max-w-2xl w-full bg-white p-8 rounded-xl shadow-md">
+        
+        <!-- TELA 1: LANDING PAGE / APRESENTAÇÃO -->
+        <div id="telaInicio" class="space-y-6">
+            <h1 class="text-3xl font-bold text-blue-600 text-center">Apoio à Inserção Profissional</h1>
+            <p class="text-slate-600 text-center">Conecte sua trajetória profissional às melhores vagas e oportunidades de qualificação no Rio de Janeiro usando Inteligência Artificial local.</p>
+            
+            <div class="flex gap-4 pt-4">
+                <button onclick="mostrarTela('telaCadastro')" class="w-1/2 bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition">Criar Conta</button>
+                <button onclick="mostrarTela('telaLogin')" class="w-1/2 bg-slate-200 text-slate-700 p-3 rounded-lg font-semibold hover:bg-slate-300 transition">Já tenho uma conta</button>
+            </div>
+        </div>
+
+        <!-- TELA 2: CADASTRO -->
+        <div id="telaCadastro" class="hidden space-y-4">
+            <h2 class="text-2xl font-bold text-blue-600">Criar Nova Conta</h2>
+            <p class="text-sm text-slate-600">Preencha seus dados para gerar seu acesso exclusivo.</p>
+            
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Nome Completo:</label>
+                <input type="text" id="nomeCadastro" class="w-full p-3 border rounded-lg" placeholder="Seu nome">
+            </div>
+            
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Senha de Acesso:</label>
+                <input type="password" id="senhaCadastro" class="w-full p-3 border rounded-lg" placeholder="Crie uma senha segura">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Perfil Profissional (Histórico, objetivos e habilidades):</label>
+                <textarea id="perfilCadastro" rows="4" class="w-full p-3 border rounded-lg" placeholder="Ex: Ensino médio completo, busco meu primeiro emprego na área administrativa..."></textarea>
+            </div>
+
+            <div class="flex gap-4 pt-2">
+                <button onclick="cadastrarUsuario()" class="w-1/2 bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition">Cadastrar</button>
+                <button onclick="mostrarTela('telaInicio')" class="w-1/2 bg-slate-200 text-slate-700 p-3 rounded-lg font-semibold hover:bg-slate-300 transition">Voltar</button>
+            </div>
+        </div>
+
+        <!-- TELA 3: SUCESSO DO CADASTRO (EXIBE O CÓDIGO DE 6 DÍGITOS) -->
+        <div id="telaSucesso" class="hidden text-center space-y-4">
+            <h2 class="text-2xl font-bold text-emerald-600">Cadastro Realizado com Sucesso! 🎉</h2>
+            <p class="text-sm text-slate-600">Guarde bem o seu código de acesso exclusivo abaixo. Você precisará dele para entrar no sistema:</p>
+            
+            <div class="bg-slate-100 p-4 rounded-lg border border-slate-300 inline-block">
+                <span id="codigoGerado" class="text-3xl font-mono font-bold text-blue-600 tracking-wider">------</span>
+            </div>
+            
+            <p class="text-xs text-amber-600 font-semibold">Anote este código! Ele substitui o seu nome de usuário no login.</p>
+            
+            <button onclick="mostrarTela('telaLogin')" class="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition mt-4">Ir para o Login</button>
+        </div>
+
+        <!-- TELA 4: LOGIN -->
+        <div id="telaLogin" class="hidden space-y-4">
+            <h2 class="text-2xl font-bold text-blue-600">Entrar na Plataforma</h2>
+            
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Seu Código de Acesso (6 dígitos):</label>
+                <input type="text" id="codigoLogin" class="w-full p-3 border rounded-lg uppercase font-mono" placeholder="Ex: A3B7K9">
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Senha:</label>
+                <input type="password" id="senhaLogin" class="w-full p-3 border rounded-lg" placeholder="Sua senha">
+            </div>
+
+            <div id="erroLogin" class="text-xs text-red-600 hidden font-semibold"></div>
+
+            <div class="flex gap-4 pt-2">
+                <button onclick="fazerLogin()" class="w-1/2 bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 transition">Entrar</button>
+                <button onclick="mostrarTela('telaInicio')" class="w-1/2 bg-slate-200 text-slate-700 p-3 rounded-lg font-semibold hover:bg-slate-300 transition">Voltar</button>
+            </div>
+        </div>
+
+        <!-- TELA 5: DASHBOARD DE VAGAS RECOMENDADAS -->
+        <!--div id="telaDashboard" class="hidden space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <div>
+                    <h2 class="text-xl font-bold text-blue-600">Painel de Oportunidades</h2>
+                    <p class="text-xs text-slate-500" id="saudacaoUsuario">Bem-vindo(a)!</p>
+                </div>
+                <button onclick="fazerLogout()" class="text-xs bg-red-100 text-red-600 px-3 py-1.5 rounded-md font-semibold hover:bg-red-200 transition">Sair</button>
+            </div>
+
+            <div id="status" class="text-sm text-center text-slate-500 py-2"></div>
+            <div id="resultados" class="space-y-4"></div>
+        </div-->
+        <!-- TELA 5: DASHBOARD DE VAGAS RECOMENDADAS -->
+        <div id="telaDashboard" class="hidden space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <div>
+                    <h2 class="text-xl font-bold text-blue-600">Painel de Oportunidades</h2>
+                    <p class="text-xs text-slate-500" id="saudacaoUsuario">Bem-vindo(a)!</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="abrirEdicaoPerfil()" class="text-xs bg-slate-200 text-slate-700 px-3 py-1.5 rounded-md font-semibold hover:bg-slate-300 transition">Editar Perfil</button>
+                    <button onclick="fazerLogout()" class="text-xs bg-red-100 text-red-600 px-3 py-1.5 rounded-md font-semibold hover:bg-red-200 transition">Sair</button>
+                </div>
+            </div>
+
+            <!-- MODAL OU CAIXA DE EDIÇÃO DE PERFIL (Oculta por padrão) -->
+            <div id="painelEdicao" class="hidden p-4 bg-blue-50 border border-blue-200 rounded-lg space-y-3">
+                <h3 class="font-bold text-sm text-blue-800">Atualizar seu Perfil Profissional</h3>
+                <div>
+                    <label for="perfilEditado" class="block text-xs font-bold text-slate-700 mb-1">Novo Perfil Profissional:</label>
+                    <textarea id="perfilEditado" rows="4" class="w-full p-3 border rounded-lg bg-white text-xs"></textarea>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="salvarPerfilEditado()" class="bg-blue-600 text-white px-4 py-2 rounded text-xs font-semibold hover:bg-blue-700 transition">Salvar e Reanalisar</button>
+                    <button onclick="fecharEdicaoPerfil()" class="bg-slate-300 text-slate-700 px-4 py-2 rounded text-xs font-semibold hover:bg-slate-400 transition">Cancelar</button>
+                </div>
+            </div>
+
+            <div id="status" class="text-sm text-center text-slate-500 py-2"></div>
+            <div id="resultados" class="space-y-4"></div>
+        </div>
+
+    </div>
+
+    <!-- Importação do script central da aplicação -->
+    <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -143,7 +143,7 @@ async function rasparCursosCPET() {
         }
         
         salvarCursosSeguro(listaFinalCursos);
-        console.log(`\n✨ Concluído CPET: ${totalSalvosNestaExecucao} cursos vetorizados e salvos.`);
+        console.log(`\nConcluído CPET: ${totalSalvosNestaExecucao} cursos vetorizados e salvos.`);
     } catch (error) {
         console.error("Erro geral na execução do script de cursos CPET:", error);
     } finally {
@@ -302,7 +302,7 @@ async function rasparCursosEstacio() {
         }
         
         salvarCursosSeguro(listaFinalCursos);
-        console.log(`\n✨ Concluído Estácio: ${totalSalvosNestaExecucao} cursos vetorizados e salvos no total.`);
+        console.log(`\nConcluído Estácio: ${totalSalvosNestaExecucao} cursos vetorizados e salvos no total.`);
     } catch (error) {
         console.error("Erro geral na execução do script de cursos Estácio:", error);
     } finally {
@@ -430,7 +430,7 @@ async function rasparCursosUninter() {
             }
         }
 
-        console.log(`\n✨ Total de cursos únicos coletados em todas as páginas: ${todosCursosColetados.length}. Iniciando extração de detalhes...`);
+        console.log(`\nTotal de cursos únicos coletados em todas as páginas: ${todosCursosColetados.length}. Iniciando extração de detalhes...`);
 
         // Visita cada link coletado para extrair detalhes e gerar embeddings
         for (const curso of todosCursosColetados) {
@@ -454,7 +454,7 @@ async function rasparCursosUninter() {
         }
 
         salvarCursosSeguro(listaFinalCursos);
-        console.log(`\n✨ Concluído Uninter: ${totalSalvosNestaExecucao} cursos vetorizados e salvos.`);
+        console.log(`\nConcluído Uninter: ${totalSalvosNestaExecucao} cursos vetorizados e salvos.`);
     } catch (error) {
         console.error("Erro geral na execução do script de cursos Uninter:", error);
     } finally {

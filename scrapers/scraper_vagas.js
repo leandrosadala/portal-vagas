@@ -191,7 +191,7 @@ async function buscarVagasPorEscolaridade() {
         }
 
         fs.writeFileSync('vagas.json', JSON.stringify(listaFinalVagas, null, 2), 'utf-8');
-        console.log(`\n✨ Concluído: ${totalSalvasNestaExecucao} vagas vetorizadas e salvas no arquivo vagas.json.`);
+        console.log(`\nConcluído: ${totalSalvasNestaExecucao} vagas vetorizadas e salvas no arquivo vagas.json.`);
     } catch (error) {
         console.error(`Erro geral no processo: ${error.message}`);
     } finally {

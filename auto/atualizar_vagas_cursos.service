@@ -1,0 +1,9 @@
+[Unit]
+Description=Atualização semanal de vagas, cursos e commit no GitHub
+After=network.target
+
+[Service]
+Type=oneshot
+User=leandro-sadala # USUARIO_DO_LINUX
+WorkingDirectory=/home/leandro-sadala/Projetos/portal-vagas # /caminho/para/projeto/aqui
+ExecStart=/bin/bash /home/leandro-sadala/Projetos/portal-vagas/atualizar_dados.sh

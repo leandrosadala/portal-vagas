@@ -1,0 +1,11 @@
+[Unit]
+Description=Timer para atualização semanal dos scrapers de vagas
+
+[Timer]
+# Executa todo domingo às 18:00 horas
+OnCalendar=Sun *-*-* 18:00:00
+# CRUCIAL: Se o PC estava desligado neste horário, executa logo após ligar
+Persistent=true
+
+[Install]
+WantedBy=timers.target

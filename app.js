@@ -4,6 +4,10 @@ let extractor = null;
 let vagasDB = [];
 let cursosDB = [];
 
+// Chaves isoladas e versionadas para proteger o LocalStorage contra atualizações de assets
+const CHAVE_USUARIOS = 'plataforma_vagas_rio_usuarios_v1';
+const CHAVE_SESSAO = 'plataforma_vagas_rio_sessao_v1';
+
 // Função global para alternar entre as telas da aplicação
 window.mostrarTela = function(idTela) {
     const telas = ['telaInicio', 'telaCadastro', 'telaSucesso', 'telaLogin', 'telaDashboard'];
@@ -13,19 +17,22 @@ window.mostrarTela = function(idTela) {
     document.getElementById(idTela).classList.remove('hidden');
 }
 
-// Inicialização do Sistema e Carregamento dos Dados de Vagas e Cursos
+// Inicialização do Sistema e Carregamento dos Dados de Vagas e Cursos com bypass de cache
 async function inicializarSistema() {
     try {
         extractor = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
         
-        const resVagas = await fetch('vagas.json');
+        // Timestamp para forçar o navegador a buscar os dados atualizados sem afetar o localStorage
+        const versaoCache = Date.now();
+
+        const resVagas = await fetch(`./vagas.json?v=${versaoCache}`);
         const vagasRaw = await resVagas.json();
         vagasDB = vagasRaw.map(v => ({
             ...v,
             embeddings: typeof v.embeddings === 'string' ? JSON.parse(v.embeddings) : v.embeddings
         }));
 
-        const resCursos = await fetch('cursos.json');
+        const resCursos = await fetch(`./cursos.json?v=${versaoCache}`);
         const cursosRaw = await resCursos.json();
         cursosDB = cursosRaw.map(c => ({
             ...c,
@@ -61,7 +68,7 @@ window.cadastrarUsuario = function() {
         return;
     }
 
-    let usuarios = JSON.parse(localStorage.getItem('usuariosDB')) || [];
+    let usuarios = JSON.parse(localStorage.getItem(CHAVE_USUARIOS)) || [];
     
     // Gera um código único garantindo que não repita
     let codigo;
@@ -72,7 +79,7 @@ window.cadastrarUsuario = function() {
     const novoUsuario = { codigo, nome, senha, perfil };
     usuarios.push(novoUsuario);
     
-    localStorage.setItem('usuariosDB', JSON.stringify(usuarios));
+    localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(usuarios));
 
     // Exibe o código gerado na tela de sucesso
     document.getElementById('codigoGerado').innerText = codigo;
@@ -91,7 +98,7 @@ window.fazerLogin = async function() {
         return;
     }
 
-    const usuarios = JSON.parse(localStorage.getItem('usuariosDB')) || [];
+    const usuarios = JSON.parse(localStorage.getItem(CHAVE_USUARIOS)) || [];
     const usuarioEncontrado = usuarios.find(u => u.codigo === codigoInput && u.senha === senhaInput);
 
     if (!usuarioEncontrado) {
@@ -102,8 +109,8 @@ window.fazerLogin = async function() {
 
     erroEl.classList.add('hidden');
     
-    // Salva a sessão ativa
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioEncontrado));
+    // Salva a sessão ativa na chave isolada
+    localStorage.setItem(CHAVE_SESSAO, JSON.stringify(usuarioEncontrado));
     
     // Abre o Dashboard e executa a recomendação automática
     mostrarTela('telaDashboard');
@@ -113,13 +120,13 @@ window.fazerLogin = async function() {
 }
 
 window.fazerLogout = function() {
-    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem(CHAVE_SESSAO);
     mostrarTela('telaInicio');
 }
 
 // Abre o painel de edição preenchendo com o perfil atual do usuário logado
 window.abrirEdicaoPerfil = function() {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const usuarioLogado = JSON.parse(localStorage.getItem(CHAVE_SESSAO));
     if (usuarioLogado) {
         document.getElementById('perfilEditado').value = usuarioLogado.perfil;
         document.getElementById('painelEdicao').classList.remove('hidden');
@@ -131,7 +138,7 @@ window.fecharEdicaoPerfil = function() {
     document.getElementById('painelEdicao').classList.add('hidden');
 }
 
-// Salva as alterações do perfil no localStorage e atualiza as recomendações
+// Salva as alterações do perfil no localStorage isolado e atualiza as recomendações
 window.salvarPerfilEditado = async function() {
     const novoTextoPerfil = document.getElementById('perfilEditado').value.trim();
 
@@ -140,12 +147,12 @@ window.salvarPerfilEditado = async function() {
         return;
     }
 
-    let usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
-    let usuariosDB = JSON.parse(localStorage.getItem('usuariosDB')) || [];
+    let usuarioLogado = JSON.parse(localStorage.getItem(CHAVE_SESSAO));
+    let usuariosDB = JSON.parse(localStorage.getItem(CHAVE_USUARIOS)) || [];
 
     // Atualiza o perfil na sessão ativa
     usuarioLogado.perfil = novoTextoPerfil;
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuarioLogado));
+    localStorage.setItem(CHAVE_SESSAO, JSON.stringify(usuarioLogado));
 
     // Atualiza o perfil na lista geral de usuários cadastrados
     usuariosDB = usuariosDB.map(u => {
@@ -154,7 +161,7 @@ window.salvarPerfilEditado = async function() {
         }
         return u;
     });
-    localStorage.setItem('usuariosDB', JSON.stringify(usuariosDB));
+    localStorage.setItem(CHAVE_USUARIOS, JSON.stringify(usuariosDB));
 
     // Fecha o painel e roda a IA novamente com o novo perfil
     fecharEdicaoPerfil();
@@ -309,9 +316,9 @@ window.carregarMaisVagas = function() {
     renderizarListaVagas();
 }
 
-// Verifica se já existe sessão ativa ao abrir a página
+// Verifica se já existe sessão ativa ao abrir a página usando a chave isolada
 window.addEventListener('DOMContentLoaded', () => {
-    const usuarioLogado = JSON.parse(localStorage.getItem('usuarioLogado'));
+    const usuarioLogado = JSON.parse(localStorage.getItem(CHAVE_SESSAO));
     if (usuarioLogado) {
         mostrarTela('telaDashboard');
         document.getElementById('saudacaoUsuario').innerText = `Olá, ${usuarioLogado.nome} (Código: ${usuarioLogado.codigo})`;

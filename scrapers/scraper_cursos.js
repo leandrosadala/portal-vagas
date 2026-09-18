@@ -464,8 +464,8 @@ async function rasparCursosUninter() {
 
 async function executarScrapers() {
     await rasparCursosCPET();
-    //await rasparCursosEstacio();
-    //await rasparCursosUninter();
+    await rasparCursosEstacio();
+    await rasparCursosUninter();
 }
 
 executarScrapers();

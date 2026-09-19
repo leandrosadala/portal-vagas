@@ -10,12 +10,12 @@ cd "$PROJETO_DIR" || { echo "Diretório não encontrado!"; exit 1; }
 
 echo "=== Iniciando atualização de vagas e cursos ==="
 
-# 1. Executa os scripts de scraping (localizados na pasta scrappers/)
+# 1. Executa os scripts de scraping (localizados na pasta scrapers/)
 echo "Executando raspagem de vagas..."
-node scrappers/scraper_vagas.js
+node scrapers/scraper_vagas.js
 
 echo "Executando raspagem de cursos..."
-node scrappers/scraper_cursos.js
+node scrapers/scraper_cursos.js
 
 # 2. Executa a limpeza de duplicatas (script Python na pasta curadoria/)
 if [ -f "curadoria/limpar_duplicatas.py" ]; then

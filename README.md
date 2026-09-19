@@ -37,6 +37,9 @@ portal-vagas/
 │   ├── atualizar_vagas_cursos.service   # Arquivo de configuração de serviço do Systemd (Linux)
 │   └── atualizar_vagas_cursos.timer     # Arquivo de agendamento/timer do Systemd (Linux)
 │
+├── curadoria/                           # Tratamento a posteriori da raspagem dos dados
+│   └── limpar_duplicatas.py             # Script Python para eliminação de vagas e cursos duplicados
+│
 └── data/                                # Bases de dados consolidadas para consumo da aplicação
     ├── vagas.json                       # Repositório estruturado de vagas de emprego
     └── cursos.json                      # Repositório estruturado de cursos e qualificação

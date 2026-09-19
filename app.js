@@ -25,14 +25,14 @@ async function inicializarSistema() {
         // Timestamp para forçar o navegador a buscar os dados atualizados sem afetar o localStorage
         const versaoCache = Date.now();
 
-        const resVagas = await fetch(`./vagas.json?v=${versaoCache}`);
+        const resVagas = await fetch(`./data/vagas.json?v=${versaoCache}`);
         const vagasRaw = await resVagas.json();
         vagasDB = vagasRaw.map(v => ({
             ...v,
             embeddings: typeof v.embeddings === 'string' ? JSON.parse(v.embeddings) : v.embeddings
         }));
 
-        const resCursos = await fetch(`./cursos.json?v=${versaoCache}`);
+        const resCursos = await fetch(`./data/cursos.json?v=${versaoCache}`);
         const cursosRaw = await resCursos.json();
         cursosDB = cursosRaw.map(c => ({
             ...c,

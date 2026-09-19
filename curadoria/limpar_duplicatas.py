@@ -38,8 +38,6 @@ def remover_duplicadas(caminho_arquivo, chave_unica):
     print(f"[{caminho_arquivo}] Total inicial: {total_inicial} | Removidas: {removidos} duplicadas | Total final: {total_final}")
 
 if __name__ == "__main__":
-    # Limpa o vagas.json usando 'link' ou 'vaga' como base de unicidade
-    remover_duplicadas('../data/vagas.json', 'link')
-    
-    # Limpa o cursos.json usando 'link' ou 'curso' como base de unicidade
-    remover_duplicadas('../data/cursos.json', 'link')
+    # Aponta para os ficheiros dentro da pasta data/
+    remover_duplicadas('data/vagas.json', 'link')
+    remover_duplicadas('data/cursos.json', 'link')

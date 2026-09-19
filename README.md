@@ -35,7 +35,7 @@ portal-vagas/
 ├── auto/                                # Automação e agendamento de atualizações do sistema
 │   ├── atualizar_vagas_cursos.sh        # Shell script para execução da atualização de vagas e cursos
 │   ├── atualizar_vagas_cursos.service   # Arquivo de configuração de serviço do Systemd (Linux)
-│   └── atualizar_vagas_cursos.timer     # Arquivo de agendamento/timer do Systemd (Linux)│
+│   └── atualizar_vagas_cursos.timer     # Arquivo de agendamento/timer do Systemd (Linux)
 │
 └── data/                                # Bases de dados consolidadas para consumo da aplicação
     ├── vagas.json                       # Repositório estruturado de vagas de emprego

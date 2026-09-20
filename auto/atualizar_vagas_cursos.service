@@ -9,4 +9,4 @@ After=network.target
 Type=oneshot
 User=leandro-sadala # USUARIO_DO_LINUX
 WorkingDirectory=/home/leandro-sadala/Projetos/portal-vagas # /caminho/para/projeto/aqui
-ExecStart=/bin/bash /home/leandro-sadala/Projetos/portal-vagas/atualizar_dados.sh
+ExecStart=/bin/bash /home/leandro-sadala/Projetos/portal-vagas/atualizar_vagas_cursos.sh

@@ -1,3 +1,6 @@
+# Este arquivo deve ser salvo em /etc/systemd/system/. 
+# Para isso, você precisa ter permissões de administrador.
+
 [Unit]
 Description=Atualização semanal de vagas, cursos e commit no GitHub
 After=network.target

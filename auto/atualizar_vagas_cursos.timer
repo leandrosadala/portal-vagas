@@ -1,3 +1,16 @@
+# Este arquivo deve ser salvo em /etc/systemd/system/ junto com o atualizar_vagas_cursos.service. 
+# Para isso, você precisa ter permissões de administrador.
+#
+# Assim que os arquivos .service e .timer estiverem na pasta /etc/systemd/system/
+# prossiga com os comandos abaixo.
+#
+# Recarrega o systemd para reconhecer os novos arquivos
+# sudo systemctl daemon-reload
+#
+# Ativa e inicia o timer
+# sudo systemctl enable --now atualizar-vagas.timer
+#
+
 [Unit]
 Description=Timer para atualização semanal dos scrapers de vagas
 

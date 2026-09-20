@@ -8,30 +8,36 @@ let cursosDB = [];
 const CHAVE_USUARIOS = 'plataforma_vagas_rio_usuarios_v1';
 const CHAVE_SESSAO = 'plataforma_vagas_rio_sessao_v1';
 
-// --- FUNÇÕES DE OFUSCAÇÃO / PROTEÇÃO NO LOCALSTORAGE ---
-// Codifica o objeto JSON em Base64 com um leve embaralhamento para ocultar o texto legível
+// --- FUNÇÕES DE OFUSCAÇÃO AVANÇADA PARA O LOCALSTORAGE ---
 function esconderDados(dados) {
     try {
         const jsonStr = JSON.stringify(dados);
-        return btoa(encodeURIComponent(jsonStr)); // Codifica para Base64 seguro para UTF-8
+        // Converte para Base64 e inverte a string para descaraterizar o formato padrão JSON
+        const base64 = btoa(encodeURIComponent(jsonStr));
+        return base64.split('').reverse().join('');
     } catch (e) {
         console.error("Erro ao ofuscar dados", e);
         return "";
     }
 }
 
-// Decodifica os dados protegidos de volta para JSON estruturado
-function revelarDados(dadoCriptografado) {
-    if (!dadoCriptografado) return null;
+function revelarDados(dadoCifrado) {
+    if (!dadoCifrado) return null;
     try {
-        const jsonStr = decodeURIComponent(atob(dadoCriptografado));
+        // Desinverte a string e decodifica o Base64
+        const reverso = dadoCifrado.split('').reverse().join('');
+        const jsonStr = decodeURIComponent(atob(reverso));
         return JSON.parse(jsonStr);
     } catch (e) {
-        console.error("Erro ao desofuscar dados", e);
-        return null;
+        // Caso o dado antigo estivesse em formato JSON plano (para compatibilidade inicial)
+        try {
+            return JSON.parse(dadoCifrado);
+        } catch (err) {
+            console.error("Erro ao desofuscar dados", e);
+            return null;
+        }
     }
 }
-// --------------------------------------------------------
 
 // Função global para alternar entre as telas da aplicação
 window.mostrarTela = function(idTela) {

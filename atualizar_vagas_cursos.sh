@@ -4,6 +4,7 @@
 # Caminho absoluto para a pasta do projeto no computador
 PROJETO_DIR="/home/leandro-sadala/Projetos/portal-vagas"
 BRANCH="main" # Alterar para 'master' se necessário
+NODE_APP="/home/leandro-sadala/.nvm/versions/node/v24.18.0/bin/node"
 
 # Entra na pasta do projeto
 cd "$PROJETO_DIR" || { echo "Diretório não encontrado!"; exit 1; }
@@ -12,10 +13,10 @@ echo "=== Iniciando atualização de vagas e cursos ==="
 
 # 1. Executa os scripts de scraping (localizados na pasta scrapers/)
 echo "Executando raspagem de vagas..."
-node scrapers/scraper_vagas.js
+$NODE_APP scrapers/scraper_vagas.js
 
 echo "Executando raspagem de cursos..."
-node scrapers/scraper_cursos.js
+$NODE_APP scrapers/scraper_cursos.js
 
 # 2. Executa a limpeza de duplicatas (script Python na pasta curadoria/)
 if [ -f "curadoria/limpar_duplicatas.py" ]; then

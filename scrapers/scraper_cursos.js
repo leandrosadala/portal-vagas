@@ -6,9 +6,9 @@ import fs from 'fs';
 function salvarCursosSeguro(novosCursos) {
     let cursosExistentes = [];
     
-    if (fs.existsSync('cursos.json')) {
+    if (fs.existsSync('data/cursos.json')) {
         try {
-            const conteudo = fs.readFileSync('cursos.json', 'utf-8');
+            const conteudo = fs.readFileSync('data/cursos.json', 'utf-8');
             if (conteudo.trim()) {
                 cursosExistentes = JSON.parse(conteudo);
             }
@@ -22,7 +22,7 @@ function salvarCursosSeguro(novosCursos) {
     novosCursos.forEach(c => mapaCursos.set(c.link, c));
 
     const listaAtualizada = Array.from(mapaCursos.values());
-    fs.writeFileSync('cursos.json', JSON.stringify(listaAtualizada, null, 2), 'utf-8');
+    fs.writeFileSync('data/cursos.json', JSON.stringify(listaAtualizada, null, 2), 'utf-8');
 }
 
 async function rasparDetalhesCursoCPET(page, urlCurso) {

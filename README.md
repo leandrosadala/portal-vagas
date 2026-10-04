@@ -27,13 +27,13 @@ portal-vagas/
 │
 ├── index.html                           # Página principal da aplicação web
 ├── app.js                               # Lógica principal do frontend, autenticação e motor de IA
+├── atualizar_vagas_cursos.sh            # Shell script para execução da atualização de vagas e cursos
 │
 ├── scrappers/                           # Scripts de extração e coleta de dados (Web Scraping)
 │   ├── scraper_vagas.js                 # Extrator de vagas de emprego do portal Riovagas
 │   └── scraper_cursos.js                # Extrator de cursos dos sites CPET, Estácio e Uninter.
 │
 ├── auto/                                # Automação e agendamento de atualizações do sistema
-│   ├── atualizar_vagas_cursos.sh        # Shell script para execução da atualização de vagas e cursos
 │   ├── atualizar_vagas_cursos.service   # Arquivo de configuração de serviço do Systemd (Linux)
 │   └── atualizar_vagas_cursos.timer     # Arquivo de agendamento/timer do Systemd (Linux)
 │
